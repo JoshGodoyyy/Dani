@@ -1,6 +1,7 @@
 import 'package:dani/app/core/ui/widgets/balance.dart';
 import 'package:dani/app/core/ui/widgets/custom_app_bar.dart';
 import 'package:dani/app/core/ui/widgets/list_bills.dart';
+import 'package:dani/pages/new_payment/new_payment.dart';
 import 'package:flutter/material.dart';
 
 import '../../app/core/ui/widgets/icon_bottom_app_bar.dart';
@@ -28,7 +29,13 @@ class _HomePageState extends State<HomePage> {
       appBar: MyAppBar(),
       body: Column(
         children: [
-          const BalanceWidget(),
+          BalanceWidget(
+            onTap: () => Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (context) => const NewPayment(),
+              ),
+            ),
+          ),
           screens[_selectedIndex],
         ],
       ),

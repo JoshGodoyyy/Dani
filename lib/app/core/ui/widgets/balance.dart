@@ -3,7 +3,11 @@ import 'package:dani/app/core/ui/styles/text_styles.dart';
 import 'package:flutter/material.dart';
 
 class BalanceWidget extends StatefulWidget {
-  const BalanceWidget({super.key});
+  final Function() onTap;
+  const BalanceWidget({
+    super.key,
+    required this.onTap,
+  });
 
   @override
   State<BalanceWidget> createState() => _BalanceWidgetState();
@@ -91,7 +95,7 @@ class _BalanceWidgetState extends State<BalanceWidget> {
               height: 20,
             ),
             TextButton(
-              onPressed: () {},
+              onPressed: widget.onTap,
               style: ElevatedButton.styleFrom(
                 backgroundColor: ColorsApp.instance.startColor,
               ),
