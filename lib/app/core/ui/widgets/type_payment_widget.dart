@@ -26,8 +26,8 @@ class TypePaymentWidget extends StatelessWidget {
         child: Container(
           decoration: BoxDecoration(
             color: isSelected
-                ? ColorsApp.instance.backgroundColor
-                : ColorsApp.instance.primaryColor,
+                ? ColorsApp.instance.primaryColor
+                : ColorsApp.instance.backgroundColor,
             borderRadius: const BorderRadius.all(
               Radius.circular(10),
             ),

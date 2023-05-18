@@ -8,6 +8,7 @@ class BuildTextFormField extends StatelessWidget {
   final Widget? prefix;
   final TextEditingController controller;
   final int lines;
+  final TextInputType keyboardType;
 
   const BuildTextFormField({
     super.key,
@@ -15,6 +16,7 @@ class BuildTextFormField extends StatelessWidget {
     required this.prefix,
     required this.controller,
     required this.lines,
+    required this.keyboardType,
   });
 
   @override
@@ -42,6 +44,7 @@ class BuildTextFormField extends StatelessWidget {
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16.0),
             child: TextFormField(
+              keyboardType: keyboardType,
               controller: controller,
               maxLines: lines,
               style: TextStyles.instance.textRegular,
