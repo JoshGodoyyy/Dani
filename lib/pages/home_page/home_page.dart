@@ -1,11 +1,6 @@
-import 'package:dani/app/core/ui/widgets/balance.dart';
-import 'package:dani/app/core/ui/widgets/custom_app_bar.dart';
-import 'package:dani/app/core/ui/widgets/list_bills.dart';
-import 'package:dani/pages/new_payment/new_payment.dart';
+import 'package:dani/app/core/ui/widgets/custom_drawer.dart';
+import 'package:dani/pages/main_page/main_page.dart';
 import 'package:flutter/material.dart';
-
-import '../../app/core/ui/widgets/icon_bottom_app_bar.dart';
-import '../../app/core/ui/widgets/list_statement.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -15,52 +10,71 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  int _selectedIndex = 0;
-
-  final screens = const <Widget>[
-    BillsList(),
-    StatementList(),
-  ];
-
+  bool isDrawerOpenned = false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black,
-      appBar: MyAppBar(),
-      body: Column(
+      backgroundColor: const Color(0xff17203a),
+      body: Stack(
         children: [
-          BalanceWidget(
-            onTap: () => Navigator.of(context).push(
-              MaterialPageRoute(
-                builder: (context) => const NewPayment(),
+          AnimatedPositioned(
+            duration: const Duration(milliseconds: 200),
+            curve: Curves.fastOutSlowIn,
+            width: 290,
+            left: isDrawerOpenned ? 0 : -290,
+            height: MediaQuery.of(context).size.height,
+            child: const MyDrawer(),
+          ),
+          Transform.translate(
+            offset: Offset(isDrawerOpenned ? 290 : 0, 0),
+            child: Transform.scale(
+              scale: isDrawerOpenned ? 0.8 : 1,
+              child: ClipRRect(
+                borderRadius: BorderRadius.all(
+                  Radius.circular(isDrawerOpenned ? 10 : 0),
+                ),
+                child: InkWell(
+                  onTap: isDrawerOpenned
+                      ? () {
+                          setState(() {
+                            isDrawerOpenned = !isDrawerOpenned;
+                          });
+                        }
+                      : null,
+                  child: const MainPage(),
+                ),
               ),
             ),
           ),
-          screens[_selectedIndex],
-        ],
-      ),
-      bottomNavigationBar: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: [
-          IconBottomAppBar(
-            text: 'Contas',
-            icon: Icons.payment,
-            selected: _selectedIndex == 0,
-            onPressed: () {
-              setState(() {
-                _selectedIndex = 0;
-              });
-            },
-          ),
-          IconBottomAppBar(
-            text: 'Extrato',
-            icon: Icons.history_outlined,
-            selected: _selectedIndex == 1,
-            onPressed: () {
-              setState(() {
-                _selectedIndex = 1;
-              });
-            },
+          Visibility(
+            visible: !isDrawerOpenned,
+            child: SafeArea(
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: ClipRRect(
+                  borderRadius: const BorderRadius.all(
+                    Radius.circular(24),
+                  ),
+                  child: InkWell(
+                    onTap: () {
+                      setState(() {
+                        isDrawerOpenned = !isDrawerOpenned;
+                      });
+                    },
+                    child: Container(
+                      color: Colors.transparent,
+                      child: const Padding(
+                        padding: EdgeInsets.all(8),
+                        child: Icon(
+                          Icons.menu,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ),
           ),
         ],
       ),

@@ -21,6 +21,45 @@ class _NewPaymentState extends State<NewPayment> {
   bool isFixedSelected = false;
   bool isVariableSelected = false;
 
+  String _day = DateTime.now().day.toString();
+  String _month = DateTime.now().month.toString();
+  String _year = DateTime.now().year.toString();
+
+  String date() {
+    return '${_day.padLeft(2, '0')}/${_month.padLeft(2, '0')}/$_year';
+  }
+
+  void showCalendar() {
+    showDatePicker(
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime(2000),
+      lastDate: DateTime(2030),
+    ).then((value) {
+      setState(() {
+        _day = value!.day.toString();
+        _month = value.month.toString();
+        _year = value.year.toString();
+        date();
+      });
+    });
+  }
+
+  void clearAll() {
+    _day = DateTime.now().day.toString();
+    _month = DateTime.now().month.toString();
+    _year = DateTime.now().year.toString();
+    date();
+
+    isReceiptSelected = false;
+    isPaymentSelected = false;
+    isFixedSelected = false;
+    isVariableSelected = false;
+
+    valueController.clear();
+    descriptionController.clear();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -99,7 +138,7 @@ class _NewPaymentState extends State<NewPayment> {
               ),
               const SizedBox(height: 16),
               InkWell(
-                onTap: () {},
+                onTap: () => showCalendar(),
                 borderRadius: BorderRadius.circular(10),
                 child: Container(
                   width: MediaQuery.of(context).size.width,
@@ -120,7 +159,7 @@ class _NewPaymentState extends State<NewPayment> {
                       Padding(
                         padding: const EdgeInsets.all(16),
                         child: Text(
-                          '29/05/1999',
+                          date(),
                           style: TextStyles.instance.textRegular.copyWith(
                             fontSize: 16,
                           ),
@@ -167,19 +206,26 @@ class _NewPaymentState extends State<NewPayment> {
               const SizedBox(height: 16),
               Container(
                 decoration: BoxDecoration(
-                    borderRadius: const BorderRadius.all(
-                      Radius.circular(10),
-                    ),
-                    gradient: LinearGradient(
-                        begin: Alignment.topCenter,
-                        end: Alignment.bottomCenter,
-                        colors: [
-                          ColorsApp.instance.startColor,
-                          ColorsApp.instance.endColor,
-                        ])),
+                  borderRadius: const BorderRadius.all(
+                    Radius.circular(10),
+                  ),
+                  gradient: LinearGradient(
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                    colors: [
+                      ColorsApp.instance.startColor,
+                      ColorsApp.instance.endColor,
+                    ],
+                  ),
+                ),
                 width: MediaQuery.of(context).size.width,
                 child: InkWell(
-                  onTap: () {},
+                  onTap: () {
+                    setState(() {
+                      clearAll();
+                    });
+                    //TODO: Ação ao clicar em Adicionar
+                  },
                   borderRadius: const BorderRadius.all(
                     Radius.circular(10),
                   ),

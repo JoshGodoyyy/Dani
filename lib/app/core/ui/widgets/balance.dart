@@ -15,6 +15,7 @@ class BalanceWidget extends StatefulWidget {
 
 class _BalanceWidgetState extends State<BalanceWidget> {
   final double padding = 16.0;
+  int count = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -51,7 +52,9 @@ class _BalanceWidgetState extends State<BalanceWidget> {
                   style: TextStyles.instance.textBold.copyWith(fontSize: 32),
                 ),
                 IconButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    //TODO: Botão de configurações
+                  },
                   icon: const Icon(
                     Icons.settings,
                     color: Colors.white,
